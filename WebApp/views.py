@@ -1,5 +1,4 @@
 from django.shortcuts import render, HttpResponseRedirect
-from core.models import Note
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import signupform, loginform
@@ -7,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
 
-def signup(request):
+def UserSignup(request):
     if request.method == "POST":
         fm = signupform(request.POST)
         if fm.is_valid():
@@ -19,7 +18,7 @@ def signup(request):
     return render(request, 'webapp/signup.html', {'form': fm})
 
 
-def user_login(request):
+def UserLogin(request):
     if not request.user.is_authenticated:
         if request.method == 'POST':
             fm = loginform(request=request, data=request.POST)
@@ -40,6 +39,6 @@ def profile(request):
     return render(request, 'webapp/profile.html')
 
 
-def user_logout(request):
+def UserLogout(request):
     logout(request)
     return HttpResponseRedirect('/userlogin')
