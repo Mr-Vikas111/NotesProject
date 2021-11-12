@@ -12,8 +12,6 @@
 
 <body>
     <form action="{% url 'profile' %}" method="post" id="login-form">
-        {% csrf_token %}
-
         <div class="container">
             <label for="uname"><b>Username</b></label>
             <input type="text" placeholder="Enter Username" name="username" id="username" class="username">
@@ -28,63 +26,30 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script type="text/javascript">
-        function login() {
-            username = document.getElementById("username").value;
-            password = document.getElementById("password").value;
+        $("#login-form").submit(function (event) {
+            event.preventDefault();
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
             $.ajax({
-                type: "POST",
                 url: "http://127.0.0.1:8000/accounts/login/",
-                dataType: 'json',
-                contentType: 'application/json',
-                data: {
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({
                     'username': username,
-                    'password': pasword,
+                    'password': password,
+                }),
+                success: function (data) {
+
+                    window.localStorage.setItem('refreshToken', data['refresh']);
+                    window.localStorage.setItem('accessToken', data['access']);
                 },
 
-                success: function (data) {
-                    console.log(data);
-                    if (data['message'] == "Success") {
-                        location.reload();
-                    }
-                    else if (data['message'] == "inactive") {
-                        $("#errorlogin").html("Please verify this E-mail address.");
-                    }
-                    else {
-                        $("#errorlogin").html("The E-mail and Password do not match.");
-                    }
-                }
-            });
-        }
-
-
-
-
-
-
-
-        // $("#login-form").submit(function (event) {
-        //     event.preventDefault();
-        //     let formData = new FormData();
-        //     formData.append('username', $('#username').val());
-        //     formData.append('password', $('#password').val());
-        //     let userData = JSON.stringify(formData);
-        //     $.ajax({
-        //         url: "http://127.0.0.1:8000/accounts/login/",
-        //         type: "POST",
-        //         dataType: "json",
-        //         contentType: "application/json",
-        //         data: userData,
-        //         success: function (data) {
-
-        //             window.localStorage.setItem('refreshToken', data['refresh']);
-        //             window.localStorage.setItem('accessToken', data['access']);
-        //         },
-
-        //         error: function (e) {
-        //             console.log(e);
-        //         },
-        //     }); // end ajax
-        // });
+                error: function (e) {
+                    console.log(e);
+                },
+            }); // end ajax
+        });
     </script>
 
 </body>
