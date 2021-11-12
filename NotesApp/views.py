@@ -14,6 +14,13 @@ class NoteListView(generics.ListCreateAPIView):
     authentication_classes =[JWTAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+    def get_queryset(self):
+        print(self.request.user)
+        current_user = self.request.user
+        queryset = NotesModel.objects.filter(user=current_user)
+        return queryset
+    
+
 class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = NotesModel.objects.all()
     serializer_class = NoteSerializer
