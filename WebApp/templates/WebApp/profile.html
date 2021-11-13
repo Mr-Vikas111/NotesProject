@@ -29,12 +29,32 @@
                 tokenFlag: true,
                 dataType: 'html',
                 success: function (data) {
-                    console.log(data)
-                    $('#container-body').html(data);
+                    console.log(data);
+
+                    // $('#container-body').html(data);
+                    let body = $("#container-body").html()
+                    if (body != "<html>" + data + "</html>") {
+                        $('#container-body').html(data);
+                    }
+
                 },
                 error: handleAjaxError
             });
         });
+        // ----------------Show table data in HTML formate -----------
+
+        // buildData(data)
+        // function buildData(data) {
+        //     var table = document.getElementById("container-body")
+        //     for (let i = 0; i < data.length; i++) {
+        //         let d = `<h3>${data[i].title}</h3>
+        //                 <h3>${data[i].body}</h3>
+        //                  <h3>${data[i].image}</h3>
+        //                  <h3>${data[i].data}</h3>`
+        //         table.innerHTML = d
+        //     }
+        // }
+
 
         function handleAjaxError(rs, e) {
             if (rs.status == 401) {

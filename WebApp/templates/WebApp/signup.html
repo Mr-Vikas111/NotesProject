@@ -21,7 +21,10 @@
 
 <body>
     <form action="" method="post" id="register-form">
+        {% csrf_token %}
         <div class="container">
+            <input name="csrfToken" id="csrftoken"
+                value="tjiYfnJ4WKGFTF2QhXHDD3xqaMLZ8b8RZLOxOwHdbnDQ7rZCbxxW0ag8iMiGbQzP" type="hidden">
             <label for="uname"><b>Username</b></label>
             <input type="text" placeholder="Enter Username" name="username" id="username" class="username">
 
@@ -45,6 +48,7 @@
     <script type="text/javascript">
         $("#register-form").submit(function (event) {
             event.preventDefault();
+            let token = document.getElementsByName("csrfToken").value;
             let username = document.getElementById("username").value;
             let email = document.getElementById("email").value;
             let firstname = document.getElementById("firstname").value;
@@ -54,10 +58,13 @@
 
             $.ajax({
                 url: "http://127.0.0.1:8000/accounts/register/",
-                type: "POST",
-                dataType: "json",
+                method: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-Token': token
+                },
                 data: JSON.stringify({
-                    '{{csrf_token}}': csrfmiddlewaretoken,
                     'username': username,
                     'email': email,
                     'first_name': firstname,
@@ -68,6 +75,8 @@
                 }),
                 success: function (data) {
                     console.log(data);
+                    window.location.href = "/webapp/login";
+
                 },
 
                 error: function (e) {

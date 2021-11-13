@@ -13,5 +13,4 @@ def UserProfile(request):
 
 
 def UserLogout(request):
-    logout(request)
     return HttpResponseRedirect('/userlogin')
