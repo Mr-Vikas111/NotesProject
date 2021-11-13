@@ -12,8 +12,9 @@
     <h1>Profile</h1>
     <div id="container-body">
 
-    </div>
 
+    </div>
+    <input type="button" value="logout" id="logout-form">
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script>
@@ -67,14 +68,21 @@
                 error: function (rs, e) {
                     if (rs.status == 401) {
                         flag = false;
-                        window.location.href = "/login/";
+                        window.location.href = "/webapp/login/";
                     } else {
                         console.error(rs.responseText);
                     }
                 }
             }); // end ajax
             return flag
+
         }
+        $("#logout-form").click(function (event) {
+            event.preventDefault();
+            window.localStorage.removeItem('refreshToken');
+            window.localStorage.removeItem('accessToken');
+            window.location.href = "/webapp/login/";
+        });
     </script>
 
 </body>

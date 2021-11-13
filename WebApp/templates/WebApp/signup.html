@@ -20,32 +20,65 @@
 </head>
 
 <body>
-    <form action="" method="post" novalidate>
-        {% csrf_token %}
-        {% if form.non_field_errors %}
+    <form action="" method="post" id="register-form">
+        <div class="container">
+            <label for="uname"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="username" id="username" class="username">
 
-        {% for error in form.non_field_errors %}
+            <label for="email"><b>Email</b></label>
+            <input type="email" placeholder="Enter email" name="email" id="email" class="email">
+            <label for="first_name">Firstname<b></b></label>
+            <input type="text" placeholder="firstname" name="firstname" id="firstname" class="firstname">
+            <label for="last_name"><b>Lastname</b></label>
+            <input type="text" placeholder="lastname" name="lastname" id="lastname" class="lastname">
+            <label for="psw"><b>password</b></label>
+            <input type="password" placeholder="Enter Password" name="password" id="password" class="password">
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Confirm Password" name="password2" id="password2" class="password2">
 
-        <p class="error"> {{error}} </p>
-        {% endfor %}
+            <button type="submit" value="submit" name="submit">SignUp</button>
+        </div>
 
-        {% endif %}
-        {% for fm in form %}
-
-        {{fm.label_tag}} {{fm}} {{fm.errors|striptags}}<br><br>
-        {% endfor %}
-        <input type="submit" value="submit">
     </form>
-    {% if messages %}
-    {% for message in messages %}
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $("#register-form").submit(function (event) {
+            event.preventDefault();
+            let username = document.getElementById("username").value;
+            let email = document.getElementById("email").value;
+            let firstname = document.getElementById("firstname").value;
+            let lastname = document.getElementById("lastname").value;
+            let password = document.getElementById("password").value;
+            let password2 = document.getElementById("password2").value;
 
-    <small {%if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}</small>
-    {% endfor %}
+            $.ajax({
+                url: "http://127.0.0.1:8000/accounts/register/",
+                type: "POST",
+                dataType: "json",
+                data: JSON.stringify({
+                    '{{csrf_token}}': csrfmiddlewaretoken,
+                    'username': username,
+                    'email': email,
+                    'first_name': firstname,
+                    'last_name': lastname,
+                    'password': password,
+                    'password2': password2,
 
-    {% endif %}
+                }),
+                success: function (data) {
+                    console.log(data);
+                },
+
+                error: function (e) {
+                    console.log(e);
+                },
 
 
-    <script src="" async defer></script>
+            });
+
+        });
+    </script>
 </body>
 
 </html>
