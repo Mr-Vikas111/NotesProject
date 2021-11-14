@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Signup page</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style>
+        .success {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="" method="post" id="post-form" enctype="multipart/form-data">
+        <div class="container">
+            <label for="title"><b>title</b></label>
+            <input type="text" placeholder="Enter title" name="title" id="title" class="title">
+
+            <label for="body"><b>body</b></label>
+            <input type="text" placeholder="Enter Msg" name="body" id="body" class="body">
+            <input type="file" id="fileToUpload" name="fileToUpload">
+
+            <button type="submit" value="submit" name="submit">Post</button>
+        </div>
+    </form>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+    <!--------------------------- Ajax Api Call --------------------------------->
+    <script type="text/javascript">
+        $("#post-form").submit(function (event) {
+            event.preventDefault();
+            let title = document.getElementById("title").value;
+            let body = document.getElementById("body").value;
+            let image = document.getElementById("fileToUpload").url;
+            console.log(image)
+            $.ajax({
+                url: "http://127.0.0.1:8000/notes/",
+                headers: {
+                    'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
+                },
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    'title': title,
+                    'body': body,
+                    'image': image,
+                }),
+                success: function (data) {
+                    console.log(data);
+                    window.location.href = "/webapp/profile/";
+
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

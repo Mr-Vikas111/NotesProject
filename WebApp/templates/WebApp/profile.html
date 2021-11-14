@@ -10,14 +10,20 @@
 
 <body>
     <h1>Profile</h1>
+    <input type="button" value="logout" id="logout-form">
+    <a href="{% url 'addnote' %}">Add Note</a>
     <div id="container-body">
-
+        <table id="mytable">
+        </table>
 
     </div>
-    <input type="button" value="logout" id="logout-form">
+
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-    <script>
+
+    <!-------------------------- Api call using Ajax ---------->
+
+    <script type="text/javascript">
         let userData;
         $(document).ready(function () {
             $.ajax({
@@ -27,34 +33,21 @@
                 },
                 type: "GET",
                 tokenFlag: true,
-                dataType: 'html',
+                dataType: 'json',
+                contentType: 'application/json',
                 success: function (data) {
                     console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        var row = $('<><h3>' + data[i].title + '</h3><p>' + data[i].body + '</p><img>' +
+                            data[i].image + '</img><br><i>' + data[i].date + '</i>');
+                        $('#mytable').append(row);
 
-                    // $('#container-body').html(data);
-                    let body = $("#container-body").html()
-                    if (body != "<html>" + data + "</html>") {
-                        $('#container-body').html(data);
+
                     }
-
                 },
                 error: handleAjaxError
             });
         });
-        // ----------------Show table data in HTML formate -----------
-
-        // buildData(data)
-        // function buildData(data) {
-        //     var table = document.getElementById("container-body")
-        //     for (let i = 0; i < data.length; i++) {
-        //         let d = `<h3>${data[i].title}</h3>
-        //                 <h3>${data[i].body}</h3>
-        //                  <h3>${data[i].image}</h3>
-        //                  <h3>${data[i].data}</h3>`
-        //         table.innerHTML = d
-        //     }
-        // }
-
 
         function handleAjaxError(rs, e) {
             if (rs.status == 401) {
@@ -103,6 +96,9 @@
             window.localStorage.removeItem('accessToken');
             window.location.href = "/webapp/login/";
         });
+
+
+
     </script>
 
 </body>

@@ -11,6 +11,9 @@ def UserLogin(request):
 def UserProfile(request):
     return render(request, 'webapp/profile.html')
 
+def UserNote(request):
+    return render(request, 'webapp/addnote.html')
+
 
 def UserLogout(request):
     return HttpResponseRedirect('/userlogin')
