@@ -21,10 +21,7 @@
 
 <body>
     <form action="" method="post" id="register-form">
-        {% csrf_token %}
         <div class="container">
-            <input name="csrfToken" id="csrftoken"
-                value="tjiYfnJ4WKGFTF2QhXHDD3xqaMLZ8b8RZLOxOwHdbnDQ7rZCbxxW0ag8iMiGbQzP" type="hidden">
             <label for="uname"><b>Username</b></label>
             <input type="text" placeholder="Enter Username" name="username" id="username" class="username">
 
@@ -48,9 +45,9 @@
 
     <!-------------------------------- Api Call using Ajax --------------->
     <script type="text/javascript">
+
         $("#register-form").submit(function (event) {
             event.preventDefault();
-            let token = document.getElementsByName("csrfToken").value;
             let username = document.getElementById("username").value;
             let email = document.getElementById("email").value;
             let firstname = document.getElementById("firstname").value;
@@ -63,9 +60,6 @@
                 method: 'POST',
                 dataType: 'json',
                 contentType: 'application/json',
-                headers: {
-                    'X-CSRF-Token': token
-                },
                 data: JSON.stringify({
                     'username': username,
                     'email': email,

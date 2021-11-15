@@ -27,9 +27,10 @@
 
             <label for="body"><b>body</b></label>
             <input type="text" placeholder="Enter Msg" name="body" id="body" class="body">
-            <input type="file" id="fileToUpload" name="fileToUpload">
+            <label for="body"><b>Image</b></label>
+            <input type="file" id="image" name="image">
 
-            <button type="submit" value="submit" name="submit">Post</button>
+            <button type="submit" value="upload" name="submit">Post</button>
         </div>
     </form>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
@@ -41,20 +42,25 @@
             event.preventDefault();
             let title = document.getElementById("title").value;
             let body = document.getElementById("body").value;
-            let image = document.getElementById("fileToUpload").url;
-            console.log(image)
+            let image = document.getElementById("image").value;
+            console.log(image);
+            console.log(title);
+            console.log(body);
             $.ajax({
                 url: "http://127.0.0.1:8000/notes/",
                 headers: {
                     'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
                 },
-                type: 'POST',
+                method: 'POST',
                 dataType: 'json',
-                contentType: 'application/json',
+                enctype: 'multipart/form-data',
+                processData: false,
                 data: JSON.stringify({
                     'title': title,
                     'body': body,
                     'image': image,
+
+
                 }),
                 success: function (data) {
                     console.log(data);

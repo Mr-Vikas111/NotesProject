@@ -27,7 +27,9 @@ class NotesListView(GenericAPIView):
         data={
             'title':request.data.get('title'),
             'body':request.data.get('body'),
-            'user':request.user.id
+            'image':request.data.get('image'),
+            'user':request.user.id,
+            
         }
         serializer=NoteSerializer(data=data)
         if serializer.is_valid():
@@ -76,7 +78,9 @@ class NotesDetailView(GenericAPIView):
         data={
             'title':request.data.get('title'),
             'body':request.data.get('body'),
-            'user':request.user.id
+            'image':request.data.get('image'),
+            'user':request.user.id,
+            
         }
         serializer=NoteSerializerForGetPut(instance=note_instance,data=data,partial=True)
 

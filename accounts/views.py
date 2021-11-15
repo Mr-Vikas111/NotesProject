@@ -3,9 +3,7 @@ from rest_framework.generics import GenericAPIView
 from .serializers import UserSerializer,MyTokenObtainPairSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
-
-
-# Create your views here.
+from django.views.decorators.csrf import csrf_exempt
 
 class MyObtainTokenPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -13,6 +11,7 @@ class MyObtainTokenPairView(TokenObtainPairView):
 class UserRegisterView(GenericAPIView):
     serializer_class = UserSerializer
 
+    @csrf_exempt
     def post(self, request, format=None):
         try:
             serializer = UserSerializer(data=request.data)

@@ -1,5 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect,redirect
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 def UserSignup(request):
     return render(request, 'webapp/signup.html')
 

@@ -35,11 +35,12 @@
                 tokenFlag: true,
                 dataType: 'json',
                 contentType: 'application/json',
+                enctype: 'multipart/form-data',
                 success: function (data) {
                     console.log(data);
                     for (var i = 0; i < data.length; i++) {
-                        var row = $('<><h3>' + data[i].title + '</h3><p>' + data[i].body + '</p><img>' +
-                            data[i].image + '</img><br><i>' + data[i].date + '</i>');
+                        var row = $('<h3>' + data[i].title + '</h3><p>' + data[i].body + '</p><img src ="' +
+                            data[i].image + '"></img><br><i>' + data[i].date + '</i>');
                         $('#mytable').append(row);
 
 
