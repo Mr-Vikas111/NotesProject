@@ -7,11 +7,13 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly,IsAuthenticated
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 
 #---------------------- List and Create ApiView -----------------------
 class NotesListView(GenericAPIView):
     serializer_class=NoteSerializer
+    parser_classes = [MultiPartParser,FormParser,JSONParser]
     authentication_classes =[JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -27,7 +29,7 @@ class NotesListView(GenericAPIView):
         data={
             'title':request.data.get('title'),
             'body':request.data.get('body'),
-            'image':request.data.get('image'),
+            'image':request.data.get('image',None),
             'user':request.user.id,
             
         }

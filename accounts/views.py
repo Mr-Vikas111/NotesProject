@@ -4,12 +4,17 @@ from .serializers import UserSerializer,MyTokenObtainPairSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+
 
 class MyObtainTokenPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+    
+
 
 class UserRegisterView(GenericAPIView):
     serializer_class = UserSerializer
+    parser_classes = [MultiPartParser]
 
     @csrf_exempt
     def post(self, request, format=None):

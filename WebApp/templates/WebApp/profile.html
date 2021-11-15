@@ -24,7 +24,9 @@
     <!-------------------------- Api call using Ajax ---------->
 
     <script type="text/javascript">
-        let userData;
+
+        //----------------  fetch data from Database---------------
+
         $(document).ready(function () {
             $.ajax({
                 url: "http://127.0.0.1:8000/notes/",
@@ -40,7 +42,7 @@
                     console.log(data);
                     for (var i = 0; i < data.length; i++) {
                         var row = $('<h3>' + data[i].title + '</h3><p>' + data[i].body + '</p><img src ="' +
-                            data[i].image + '"></img><br><i>' + data[i].date + '</i>');
+                            data[i].image + '"></img><br><i>' + data[i].date + '</i><br><button id="update" noteid=' + data[i].id + '>Update</button><button id ="delete" noteid=' + data[i].id + '>Delete</button>');
                         $('#mytable').append(row);
 
 
@@ -49,6 +51,8 @@
                 error: handleAjaxError
             });
         });
+
+        // -------------------- delete data from database ---------------
 
         function handleAjaxError(rs, e) {
             if (rs.status == 401) {
@@ -91,6 +95,8 @@
             return flag
 
         }
+
+        //----------------------------User Logout scripts------------------------
         $("#logout-form").click(function (event) {
             event.preventDefault();
             window.localStorage.removeItem('refreshToken');

@@ -40,28 +40,17 @@
     <script type="text/javascript">
         $("#post-form").submit(function (event) {
             event.preventDefault();
-            let title = document.getElementById("title").value;
-            let body = document.getElementById("body").value;
-            let image = document.getElementById("image").value;
-            console.log(image);
-            console.log(title);
-            console.log(body);
+            let formData = new FormData(this);
             $.ajax({
                 url: "http://127.0.0.1:8000/notes/",
                 headers: {
                     'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
                 },
-                method: 'POST',
+                type: 'POST',
                 dataType: 'json',
-                enctype: 'multipart/form-data',
+                contentType: false,
                 processData: false,
-                data: JSON.stringify({
-                    'title': title,
-                    'body': body,
-                    'image': image,
-
-
-                }),
+                data: formData,
                 success: function (data) {
                     console.log(data);
                     window.location.href = "/webapp/profile/";
